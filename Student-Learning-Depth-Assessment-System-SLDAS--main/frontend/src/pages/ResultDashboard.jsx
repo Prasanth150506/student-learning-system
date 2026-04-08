@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/config';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { 
@@ -47,12 +47,12 @@ const ResultDashboard = ({ user }) => {
       try {
         let resultsData = [];
         if (resultId) {
-          const { data } = await axios.get(`http://127.0.0.1:5000/api/results/details/${resultId}`, {
+          const { data } = await api.get(`/api/results/details/${resultId}`, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           resultsData = [data];
         } else {
-          const { data } = await axios.get('http://127.0.0.1:5000/api/results/my-results', {
+          const { data } = await api.get('/api/results/my-results', {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           resultsData = data;
@@ -83,7 +83,7 @@ const ResultDashboard = ({ user }) => {
     setIsTyping(prev => ({ ...prev, [resultId]: true }));
 
     try {
-      const { data } = await axios.post('http://127.0.0.1:5000/api/results/chat', {
+      const { data } = await api.post('/api/results/chat', {
         resultId,
         message: text
       }, {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/config';
 import { UserPlus, Save, Users, ShieldCheck, Mail, Lock, User as UserIcon } from 'lucide-react';
 import { Button, Card, Input, Badge, Table, TableRow } from '../components/UI';
 
@@ -26,7 +26,7 @@ const SystemAdminDashboard = ({ user }) => {
     setError('');
 
     try {
-      const { data } = await axios.post('http://127.0.0.1:5000/api/auth/register', {
+      const { data } = await api.post('/api/auth/register', {
         name,
         email,
         password,

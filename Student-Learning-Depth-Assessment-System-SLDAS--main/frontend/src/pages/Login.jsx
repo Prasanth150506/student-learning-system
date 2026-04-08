@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/config';
 import { BrainCircuit, Loader2, Mail, Lock } from 'lucide-react';
 import { Button, Input, Card } from '../components/UI';
 
@@ -17,7 +17,7 @@ const Login = ({ setUser }) => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post('http://127.0.0.1:5000/api/auth/login', { email, password });
+      const { data } = await api.post('/api/auth/login', { email, password });
       
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);

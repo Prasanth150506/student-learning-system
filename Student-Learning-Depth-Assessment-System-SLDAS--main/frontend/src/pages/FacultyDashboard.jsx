@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/config';
 import { 
   PlusCircle, 
   Save, 
@@ -45,7 +45,7 @@ const FacultyDashboard = ({ user }) => {
 
   const fetchTests = async () => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:5000/api/tests', {
+      const { data } = await api.get('/api/tests', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setTests(data);
@@ -62,7 +62,7 @@ const FacultyDashboard = ({ user }) => {
 
   const fetchStudents = async () => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:5000/api/auth/students', {
+      const { data } = await api.get('/api/auth/students', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setStudents(data);
@@ -124,7 +124,7 @@ const FacultyDashboard = ({ user }) => {
       });
 
       if (editingTestId) {
-        await axios.put(`http://127.0.0.1:5000/api/tests/${editingTestId}`, {
+        await api.put(`/api/tests/${editingTestId}`, {
           title,
           duration: Number(duration),
           totalMarks: calculateTotalMarks(),
@@ -134,7 +134,7 @@ const FacultyDashboard = ({ user }) => {
           headers: { Authorization: `Bearer ${user.token}` }
         });
       } else {
-        await axios.post('http://127.0.0.1:5000/api/tests', {
+        await api.post('/api/tests', {
           title,
           duration: Number(duration),
           totalMarks: calculateTotalMarks(),
@@ -163,7 +163,7 @@ const FacultyDashboard = ({ user }) => {
   const handleEditClick = async (test) => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get(`http://127.0.0.1:5000/api/tests/${test._id}/full`, {
+      const { data } = await api.get(`/api/tests/${test._id}/full`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setTitle(data.test.title);
@@ -183,7 +183,7 @@ const FacultyDashboard = ({ user }) => {
   const handleDeleteTest = async (testId) => {
     if (!window.confirm('Are you sure you want to delete this assessment?')) return;
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/tests/${testId}`, {
+      await api.delete(`/api/tests/${testId}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       fetchTests();
@@ -197,7 +197,7 @@ const FacultyDashboard = ({ user }) => {
     setIsLoading(true);
     setSelectedTestTitle(test.title);
     try {
-      const { data } = await axios.get(`http://127.0.0.1:5000/api/results/test/${test._id}`, {
+      const { data } = await api.get(`/api/results/test/${test._id}`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setSelectedTestResults(data);

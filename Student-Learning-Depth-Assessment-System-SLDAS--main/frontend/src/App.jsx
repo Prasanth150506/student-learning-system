@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { setAuthToken } from './api/config';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import FacultyDashboard from './pages/FacultyDashboard';
@@ -14,9 +15,17 @@ function App() {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setAuthToken(parsedUser.token);
     }
   }, []);
+
+  useEffect(() => {
+    if (user && user.token) {
+      setAuthToken(user.token);
+    }
+  }, [user]);
 
   return (
     <BrowserRouter>

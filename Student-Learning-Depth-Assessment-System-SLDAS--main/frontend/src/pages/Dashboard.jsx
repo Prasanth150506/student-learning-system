@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/config';
 import { BookOpen, Clock, Activity, ChevronRight, Trophy, Target, TrendingUp, Search } from 'lucide-react';
 import { Button, Card, Badge, Loader } from '../components/UI';
 
@@ -16,8 +16,8 @@ const Dashboard = ({ user }) => {
     const fetchTestsAndResults = async () => {
       try {
         const [testsRes, resultsRes] = await Promise.all([
-          axios.get('http://127.0.0.1:5000/api/tests', { headers: { Authorization: `Bearer ${user.token}` } }),
-          axios.get('http://127.0.0.1:5000/api/results/my-results', { headers: { Authorization: `Bearer ${user.token}` } })
+          api.get('/api/tests', { headers: { Authorization: `Bearer ${user.token}` } }),
+          api.get('/api/results/my-results', { headers: { Authorization: `Bearer ${user.token}` } })
         ]);
         
         setTests(testsRes.data);

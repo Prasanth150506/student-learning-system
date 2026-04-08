@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/config';
 import { 
   Clock, 
   Send, 
@@ -42,7 +42,7 @@ const TestTaking = ({ user }) => {
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        const { data } = await axios.get(`http://127.0.0.1:5000/api/tests/${testId}`, {
+        const { data } = await api.get(`/api/tests/${testId}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setTest(data.test);
@@ -153,7 +153,7 @@ const TestTaking = ({ user }) => {
         providedAnswer: answers[qId]
       }));
 
-      await axios.post('http://127.0.0.1:5000/api/results/submit', {
+      await api.post('/api/results/submit', {
         testId,
         answers: formattedAnswers,
         isMalpractice: isMalpractice
